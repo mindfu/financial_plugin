@@ -145,7 +145,96 @@
 	echo "We are experiencing some technical problems.  Please come back later.";
 	}
 
-    echo "</ul>\n";   
+        echo "</ul>\n";   
+        mysql_close($sql_result);
+  
+        ######### EASY VERSION
+        //tell wordpress to register the demolistposts shortcode
+        add_shortcode("demo-list-posts", "demolistposts_handler");
 
-    mysql_close($sql_result);
+        function demolistposts_handler() {
+            //run function that actually does the work of the plugin
+            $demolph_output = demolistposts_function();
+            //send back text to replace shortcode in post
+            return $demolph_output;
+        }
+
+        function demolistposts_function() {
+            //process plugin
+            $demolp_output = "Hello World!";
+            //send back text to calling function
+            return $demolp_output;
+        }
+        
+        ########## COMPLEX VERSION
+        /*
+        DEMO List Posts (Wordpress Plugin)
+        Copyright (C) 2009 Paul McKnight
+        Contact me at http://www.reallyeffective.co.uk
+
+        This program is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
+
+        This program is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+        GNU General Public License for more details.
+
+        You should have received a copy of the GNU General Public License
+        along with this program. If not, see <http://www.gnu.org/licenses/>.
+        */
+
+        //define plugin defaults
+        DEFINE("DEMOLP_CATEGORYLIST", "");
+        DEFINE("DEMOLP_HEADINGSTART", "<h4>See Also</h4>");
+        DEFINE("DEMOLP_HEADINGEND", "");
+        DEFINE("DEMOLP_LISTSTART", "<ul>");
+        DEFINE("DEMOLP_LISTEND", "</ul>");
+        DEFINE("DEMOLP_ITEMSTART", "<li>");
+        DEFINE("DEMOLP_ITEMEND", "</li>");    
+
+        //tell wordpress to register the demolistposts shortcode
+        add_shortcode("demo-list-posts", "demolistposts_handler");
+
+        function demolistposts_handler($incomingfrompost) {
+          //process incoming attributes assigning defaults if required
+          $incomingfrompost=shortcode_atts(array(
+            "categorylist" => DEMOLP_CATEGORYLIST,
+            "headingstart" => DEMOLP_HEADINGSTART,
+            "headingend" => DEMOLP_HEADINGEND,
+            "liststart" => DEMOLP_LISTSTART, 
+            "listend" => DEMOLP_LISTEND,           
+            "itemstart" => DEMOLP_ITEMSTART,
+            "itemend" => DEMOLP_ITEMEND            
+          ), $incomingfrompost);
+          //run function that actually does the work of the plugin
+          $demolph_output = demolistposts_function($incomingfrompost);
+          //send back text to replace shortcode in post
+          return $demolph_output;
+        }
+
+        //use wp_specialchars_decode so html is treated as html and not text
+        //use wp_specialchars when outputting text to ensure it is valid html
+        function demolistposts_function($incomingfromhandler) {
+          //add heading start
+          $demolp_output = wp_specialchars_decode($incomingfromhandler["headingstart"]);
+          //add list start
+          $demolp_output .= wp_specialchars_decode($incomingfromhandler["liststart"]);
+          for ($demolp_count = 1; $demolp_count <= $incomingfromhandler["categorylist"]; $demolp_count++) {
+            $demolp_output .= wp_specialchars_decode($incomingfromhandler["itemstart"]);
+            $demolp_output .= $demolp_count;
+            $demolp_output .= " of ";
+            $demolp_output .= wp_specialchars($incomingfromhandler["categorylist"]);
+            $demolp_output .= wp_specialchars_decode($incomingfromhandler["itemend"]);      
+          }
+          //add list end
+          $demolp_output .= wp_specialchars_decode($incomingfromhandler["listend"]);  
+          //add heading end
+          $demolp_output .= wp_specialchars_decode($incomingfromhandler["headingend"]);
+          //send back text to calling function
+          return $demolp_output;
+        }
+
     ?>  

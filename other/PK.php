@@ -59,41 +59,40 @@ $Updated = date("Y-m-d");
 $Updated_By = "ticker";
 $last = $myrow["last"];
 $change = $myrow["change"];
-
 $Symbol="$Symbol$Exchange";  
-  // Stock symbols.   
+// Stock symbols.   
 $symbols = array($Symbol);   
-  $i = 0;   
-  // Declare class.   
-  $quote = new yahoo; // new stock.   
-  // Loop thru array of symbols.   
-  // echo "<ul>\n";   
+$i = 0;   
+// Declare class.   
+$quote = new yahoo; // new stock.   
+// Loop thru array of symbols.   
+// echo "<ul>\n";   
 
- // foreach ($symbols as $Symbol) {   
-    $quote->get_stock_quote($symbols[$i++]); // Pass the Company's symbol.    
-    echo "<a href=\"http://finance.yahoo.com/q?s=" .$symbol. "\" title=\"Yahoo! Finance: " .$symbol.    
+// foreach ($symbols as $Symbol) {   
+$quote->get_stock_quote($symbols[$i++]); // Pass the Company's symbol.    
+echo "<a href=\"http://finance.yahoo.com/q?s=" .$symbol. "\" title=\"Yahoo! Finance: " .$symbol.    
 "\">$quote->symbol</a>\n"; // can use $quote->symbol or $symbol   
-    echo "\n";   
-    echo "<br>Last Trade: \$" .$quote->last. "\n"; // price.   
-    echo '<br>Change: <span style="';   
-    /* Make the + or - change elicit differing coloration. */  
-    $str   = $quote->change;   
-    $first = $str{0};   
-    if ($first == '+') {       // If we gained print the # in GREEN.   
-        echo 'color:#009900;';   
-    } elseif ($first == '-') { // If we lost RED.   
-        echo 'color:#990000;';   
-    } else {                   // NO color.   
-        echo 'font-weight:normal;';   
-    } // endelseif   
-    echo "\">" .$quote->change. "</span><br>\n";   
+echo "\n";   
+echo "<br>Last Trade: \$" .$quote->last. "\n"; // price.   
+echo '<br>Change: <span style="';   
+/* Make the + or - change elicit differing coloration. */  
+$str   = $quote->change;   
+$first = $str{0};   
+if ($first == '+') {       // If we gained print the # in GREEN.   
+    echo 'color:#009900;';   
+} elseif ($first == '-') { // If we lost RED.   
+    echo 'color:#990000;';   
+} else {                   // NO color.   
+    echo 'font-weight:normal;';   
+} // endelseif   
+echo "\">" .$quote->change. "</span><br>\n";   
 
-    echo "<br>Mkt Cap: \$" .$quote->capitalization. "\n"; // capitalization.   
-    echo "<br>\n"; 
-    echo $Descrip."<br>\n";
-  // } // endforeach   
+echo "<br>Mkt Cap: \$" .$quote->capitalization. "\n"; // capitalization.   
+echo "<br>\n"; 
+echo $Descrip."<br>\n";
+// } // endforeach   
 
-	//if (($quote->last) == 'N/A')
+//if (($quote->last) == 'N/A')
 $last = $quote->last;
 $change = $quote->change;
 $Mkt_Capitalization = $quote->capitalization;
@@ -119,26 +118,24 @@ $ssql = "UPDATE `master` SET
 `change` = '$change' WHERE `CompanyID` = '$CompanyID';";
 
 
-		$sql_result = mysql_query($ssql,$db)
-			or die("Couldn't execute query.");
+$sql_result = mysql_query($ssql,$db)
+        or die("Couldn't execute query.");
 
-		// echo $sql_result;
+// echo $sql_result;
 
-		if (!$sql_result) {
-
-		echo "<center><h2>Sorry, we are experiencing problems. <br>Please return later!</h2></center>";
-
-			}
+if (!$sql_result) {
+echo "<center><h2>Sorry, we are experiencing problems. <br>Please return later!</h2></center>";
+}
 
 
-	//echo $id." ".$acct." ".$shares." ".$sym." ".$last." ".$change." ".$mktcap;
-        }
+//echo $id." ".$acct." ".$shares." ".$sym." ".$last." ".$change." ".$mktcap;
+}
 
-	while ($myrow = mysql_fetch_array($result));
-	echo "\n";
-	} else {
-	echo "We are experiencing some technical problems.  Please come back later.";
-	}
+while ($myrow = mysql_fetch_array($result));
+echo "\n";
+} else {
+echo "We are experiencing some technical problems.  Please come back later.";
+}
 
 echo "</ul>\n";   
 
