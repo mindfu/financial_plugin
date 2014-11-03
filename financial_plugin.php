@@ -242,4 +242,32 @@
             return $demolp_output;
         }
 
+        
+        /*
+         * CHART
+         * https://code.google.com/p/yahoo-finance-managed/wiki/miscapiImageDownload
+         * http://stackoverflow.com/questions/9807353/getting-stock-graphs-from-yahoo-finance
+         * 
+         */
+
+        if (($row['Exchange'] == "Euronext")||($row['Exchange'] == "euronext")) {} else { 
+            echo "<div style=\"width:250px;text-align:center;margin-top:0px\">"
+            . "<a href=\"http://finance.yahoo.com/q?s=".$row['Symbol']."\" target=\"_blank\">Yahoo Finance</a>"
+                    . "| <a href=\"http://www.google.com/finance?q=".$row['Symbol']."\" target=\"_blank\">"
+                    . "Google Finance</a></div>"; }
+		
+
+        //$symbol_lower = strtolower($row['Symbol']); $yahoo_chart = "http://ichart.finance.yahoo.com/c/bb/e/".$symbol_lower; 
+        $symbol_lower = strtolower($row['Symbol']); if (($row['Exchange'] == "Euronext")||($row['Exchange'] == "euronext")) 
+            { $yahoo_chart = ""; } else {
+                //if ($company_id = "15402") {} else {
+                $yahoo_chart = "http://ichart.finance.yahoo.com/c/bb/e/".$symbol_lower;
+                //}
+            }
+                //-$yahoo_chart = "http://ichart.finance.yahoo.com/instrument/1.0/".$symbol_lower."/chart;range=1d/image;size=239x110";--
+                //IFRAME SRC="http://www.onemedplace.com/database/comp_chart.php?Symbol=<?php echo $row['Symbol']; </IFRAME-->
+
+        
+        
     ?>  
+
