@@ -1,26 +1,46 @@
 <?php
-/**
-* Plugin Name: Financial Plugin
-* Plugin URI: http://mindfu.com/financial_plugin
-* Description: This plugin uses yahoo data to display financial information about companies using shortcodes.
-* Version: 1.0
-* Author: Chris Scrivo
-* Author URI: http://chrisscrivo.com
-* License: GPL12
-*/
 
-/*
-* 52wk high: k
-* 52wk low: j
-* EPS: e7 (current yr est)
-* PE (ttm): r
-* Div Rate: d
-* Yield: y
-* Market Cap: j1
-* Volume: v
-* http://www.canbike.org/information-technology/yahoo-finance-url-download-to-a-csv-file.html
- * s l1 d1 t1 c1 o h g v j1 k j e7 r d y 
-*/
+    /**
+    * Plugin Name: Financial Plugin
+    * Plugin URI: http://mindfu.com/financial_plugin
+    * Description: This plugin uses yahoo data to display financial information about companies using shortcodes.
+    * Version: 1.0
+    * Author: Chris Scrivo
+    * Author URI: http://chrisscrivo.com
+    * License: GPL12
+    */ 
+
+    /* 
+    * Financial Plugin (Wordpress Plugin)
+    * Copyright (C) 2014 Chris Scrivo
+    * Contact me at http://www.mindfu.com/contact
+    * 
+    * This program is free software: you can redistribute it and/or modify
+    * it under the terms of the GNU General Public License as published by
+    * the Free Software Foundation, either version 3 of the License, or
+    * (at your option) any later version.
+    * 
+    * This program is distributed in the hope that it will be useful,
+    * but WITHOUT ANY WARRANTY; without even the implied warranty of
+    * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    * GNU General Public License for more details.
+    * 
+    * You should have received a copy of the GNU General Public License
+    * along with this program. If not, see <http://www.gnu.org/licenses/>.
+    */
+
+    /*
+    * 52wk high: k
+    * 52wk low: j
+    * EPS: e7 (current yr est)
+    * PE (ttm): r
+    * Div Rate: d
+    * Yield: y
+    * Market Cap: j1
+    * Volume: v
+    * http://www.canbike.org/information-technology/yahoo-finance-url-download-to-a-csv-file.html
+     * s l1 d1 t1 c1 o h g v j1 k j e7 r d y 
+    */
 
     /* Create a class to get the quote */
     Class yahoo   
@@ -79,8 +99,7 @@
                     // Declare class.   
                     $quote = new yahoo; // new stock.   
                     // Loop thru array of symbols.   
-		
-		//print_r($symbols);//echo "<br /><br />";
+                    //print_r($symbols);//echo "<br /><br />";
 	
     $quote->get_stock_quote($symbols[$i++]); // Pass the Company's symbol.    
 	
@@ -111,39 +130,39 @@
 	$change = $quote->change;
 	$Mkt_Capitalization = $quote->capitalization;
 
-        //echo $id."<br>";
-        //echo $acct."<br>";
-        //echo $shares."<br>";
-        //echo $sym."<br>";
-        //echo $last."<br>";
-        //echo $change."<br>";
-        //echo $mktcap."<br>";
-        //$ssql = "UPDATE ticker SET id='$id', acct='$acct', shares='$shares', symbol='$sym', last='$last', //change='$change', mktcap='$mktcap' WHERE id='$id'";
-        //$ssql = "REPLACE INTO `master` SET `id`='$id', `acct`='$acct', `shares` = '$shares', `symbol` = //'$sym', `last` = '$last', `change`='$change', `mktcap`='$mktcap'";
+            //echo $id."<br>";
+            //echo $acct."<br>";
+            //echo $shares."<br>";
+            //echo $sym."<br>";
+            //echo $last."<br>";
+            //echo $change."<br>";
+            //echo $mktcap."<br>";
+            //$ssql = "UPDATE ticker SET id='$id', acct='$acct', shares='$shares', symbol='$sym', last='$last', //change='$change', mktcap='$mktcap' WHERE id='$id'";
+            //$ssql = "REPLACE INTO `master` SET `id`='$id', `acct`='$acct', `shares` = '$shares', `symbol` = //'$sym', `last` = '$last', `change`='$change', `mktcap`='$mktcap'";
 
-        $ssql = "UPDATE `master` SET 
-        `Mkt_Capitalization` = '$Mkt_Capitalization',  
-        `Updated` = '$Updated', 
-        `Updated_By` = '$Updated_By', 
-        `last` = '$last', 
-        `change` = '$change' WHERE `CompanyID` = '$CompanyID';";
+            $ssql = "UPDATE `master` SET 
+            `Mkt_Capitalization` = '$Mkt_Capitalization',  
+            `Updated` = '$Updated', 
+            `Updated_By` = '$Updated_By', 
+            `last` = '$last', 
+            `change` = '$change' WHERE `CompanyID` = '$CompanyID';";
 
 
-		$sql_result = mysql_query($ssql,$db)
-			or die("Couldn't execute query.");
-		// echo $sql_result;
-		if (!$sql_result) {
-		echo "<center><h2>Sorry, we are experiencing problems. <br>Please return later!</h2></center>";
-		}
+            $sql_result = mysql_query($ssql,$db)
+                    or die("Couldn't execute query.");
+            // echo $sql_result;
+            if (!$sql_result) {
+            echo "<center><h2>Sorry, we are experiencing problems. <br>Please return later!</h2></center>";
+            }
 
 		//echo $id." ".$acct." ".$shares." ".$sym." ".$last." ".$change." ".$mktcap;
         }
 
-	while ($myrow = mysql_fetch_array($result));
-	echo "\n";
-	} else {
-	echo "We are experiencing some technical problems.  Please come back later.";
-	}
+            while ($myrow = mysql_fetch_array($result));
+            echo "\n";
+            } else {
+            echo "We are experiencing some technical problems.  Please come back later.";
+            }
 
         echo "</ul>\n";   
         mysql_close($sql_result);
@@ -167,25 +186,7 @@
         }
         
         ########## COMPLEX VERSION
-        /*
-        DEMO List Posts (Wordpress Plugin)
-        Copyright (C) 2009 Paul McKnight
-        Contact me at http://www.reallyeffective.co.uk
-
-        This program is free software: you can redistribute it and/or modify
-        it under the terms of the GNU General Public License as published by
-        the Free Software Foundation, either version 3 of the License, or
-        (at your option) any later version.
-
-        This program is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-        GNU General Public License for more details.
-
-        You should have received a copy of the GNU General Public License
-        along with this program. If not, see <http://www.gnu.org/licenses/>.
-        */
-
+        # http://www.reallyeffective.co.uk/archives/2009/08/06/how-to-code-your-own-wordpress-shortcode-plugin-tutorial-part-2/
         //define plugin defaults
         DEFINE("DEMOLP_CATEGORYLIST", "");
         DEFINE("DEMOLP_HEADINGSTART", "<h4>See Also</h4>");
@@ -199,42 +200,46 @@
         add_shortcode("demo-list-posts", "demolistposts_handler");
 
         function demolistposts_handler($incomingfrompost) {
-          //process incoming attributes assigning defaults if required
-          $incomingfrompost=shortcode_atts(array(
-            "categorylist" => DEMOLP_CATEGORYLIST,
-            "headingstart" => DEMOLP_HEADINGSTART,
-            "headingend" => DEMOLP_HEADINGEND,
-            "liststart" => DEMOLP_LISTSTART, 
-            "listend" => DEMOLP_LISTEND,           
-            "itemstart" => DEMOLP_ITEMSTART,
-            "itemend" => DEMOLP_ITEMEND            
-          ), $incomingfrompost);
-          //run function that actually does the work of the plugin
-          $demolph_output = demolistposts_function($incomingfrompost);
-          //send back text to replace shortcode in post
-          return $demolph_output;
+            //process incoming attributes assigning defaults if required
+            $incomingfrompost=shortcode_atts(array(
+              "categorylist" => DEMOLP_CATEGORYLIST,
+              "headingstart" => DEMOLP_HEADINGSTART,
+              "headingend" => DEMOLP_HEADINGEND,
+              "liststart" => DEMOLP_LISTSTART, 
+              "listend" => DEMOLP_LISTEND,           
+              "itemstart" => DEMOLP_ITEMSTART,
+              "itemend" => DEMOLP_ITEMEND            
+            ), $incomingfrompost);
+            //run function that actually does the work of the plugin
+            $demolph_output = demolistposts_function($incomingfrompost);
+            //send back text to replace shortcode in post
+            return $demolph_output;
         }
 
         //use wp_specialchars_decode so html is treated as html and not text
         //use wp_specialchars when outputting text to ensure it is valid html
         function demolistposts_function($incomingfromhandler) {
-          //add heading start
-          $demolp_output = wp_specialchars_decode($incomingfromhandler["headingstart"]);
-          //add list start
-          $demolp_output .= wp_specialchars_decode($incomingfromhandler["liststart"]);
-          for ($demolp_count = 1; $demolp_count <= $incomingfromhandler["categorylist"]; $demolp_count++) {
-            $demolp_output .= wp_specialchars_decode($incomingfromhandler["itemstart"]);
-            $demolp_output .= $demolp_count;
-            $demolp_output .= " of ";
-            $demolp_output .= wp_specialchars($incomingfromhandler["categorylist"]);
-            $demolp_output .= wp_specialchars_decode($incomingfromhandler["itemend"]);      
-          }
-          //add list end
-          $demolp_output .= wp_specialchars_decode($incomingfromhandler["listend"]);  
-          //add heading end
-          $demolp_output .= wp_specialchars_decode($incomingfromhandler["headingend"]);
-          //send back text to calling function
-          return $demolp_output;
+            //add heading start
+            $demolp_output = wp_specialchars_decode($incomingfromhandler["headingstart"]);
+            
+            //add list start
+            $demolp_output .= wp_specialchars_decode($incomingfromhandler["liststart"]);
+            for ($demolp_count = 1; $demolp_count <= $incomingfromhandler["categorylist"]; $demolp_count++) {
+              $demolp_output .= wp_specialchars_decode($incomingfromhandler["itemstart"]);
+              $demolp_output .= $demolp_count;
+              $demolp_output .= " of ";
+              $demolp_output .= wp_specialchars($incomingfromhandler["categorylist"]);
+              $demolp_output .= wp_specialchars_decode($incomingfromhandler["itemend"]);      
+            }
+            
+            //add list end
+            $demolp_output .= wp_specialchars_decode($incomingfromhandler["listend"]);  
+            
+            //add heading end
+            $demolp_output .= wp_specialchars_decode($incomingfromhandler["headingend"]);
+            
+            //send back text to calling function
+            return $demolp_output;
         }
 
     ?>  
