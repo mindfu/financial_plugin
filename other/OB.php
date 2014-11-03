@@ -29,12 +29,8 @@
      }   
   }   
 
-  // user id
-  //$acctnum = '110663690';
-  //connect to db and get array of symbols
-
-	$sql = "SELECT * FROM `master` WHERE `Research_Sector` = 'Medical Devices & Tech' AND Symbol != '' AND Symbol != 'private' AND Exchange = '.OB' ";
-	$result = mysql_query($sql, $db);
+    $sql = "SELECT * FROM `master` WHERE `Research_Sector` = 'Medical Devices & Tech' AND Symbol != '' AND Symbol != 'private' AND Exchange = '.OB' ";
+    $result = mysql_query($sql, $db);
 	if ($myrow = mysql_fetch_array($result)) {
 	do {
 
@@ -63,48 +59,48 @@
     $quote->get_stock_quote($symbols[$i++]); // Pass the Company's symbol.    
 	
 	if ($quote->last == "0.00") {
-    echo "<a href=\"http://finance.yahoo.com/q?s=$quote->symbol\" title=\"Yahoo! Finance: " .$symbol.    
-"\">$quote->symbol</a>\n"; // can use $quote->symbol or $symbol   
-    echo "\n";   
-    echo "<br>Last Trade: \$" .$quote->last. "\n"; // price.   
-    echo '<br>Change: <span style="';   
-    /* Make the + or - change elicit differing coloration. */  
-    $str   = $quote->change;   
-    $first = $str{0};   
-    if ($first == '+') {       // If we gained print the # in GREEN.   
-        echo 'color:#009900;';   
-    } elseif ($first == '-') { // If we lost RED.   
-        echo 'color:#990000;';   
-    } else {                   // NO color.   
-        echo 'font-weight:normal;';   
-    } // endelseif   
-    echo "\">" .$quote->change. "</span><br>\n";   
+            echo "<a href=\"http://finance.yahoo.com/q?s=$quote->symbol\" title=\"Yahoo! Finance: " .$symbol.    
+        "\">$quote->symbol</a>\n"; // can use $quote->symbol or $symbol   
+            echo "\n";   
+            echo "<br>Last Trade: \$" .$quote->last. "\n"; // price.   
+            echo '<br>Change: <span style="';   
+            /* Make the + or - change elicit differing coloration. */  
+            $str   = $quote->change;   
+            $first = $str{0};   
+            if ($first == '+') {       // If we gained print the # in GREEN.   
+                echo 'color:#009900;';   
+            } elseif ($first == '-') { // If we lost RED.   
+                echo 'color:#990000;';   
+            } else {                   // NO color.   
+                echo 'font-weight:normal;';   
+            } // endelseif   
+            echo "\">" .$quote->change. "</span><br>\n";   
 
-    echo "<br>Mkt Cap: \$" .$quote->capitalization. "\n"; // capitalization.   
-    echo "<br>\n"; 
-    echo $Descrip."<br>\n";
+            echo "<br>Mkt Cap: \$" .$quote->capitalization. "\n"; // capitalization.   
+            echo "<br>\n"; 
+            echo $Descrip."<br>\n";
 	}
 	
 	$last = $quote->last;
 	$change = $quote->change;
 	$Mkt_Capitalization = $quote->capitalization;
 
-//echo $id."<br>";
-//echo $acct."<br>";
-//echo $shares."<br>";
-//echo $sym."<br>";
-//echo $last."<br>";
-//echo $change."<br>";
-//echo $mktcap."<br>";
-//$ssql = "UPDATE ticker SET id='$id', acct='$acct', shares='$shares', symbol='$sym', last='$last', //change='$change', mktcap='$mktcap' WHERE id='$id'";
-//$ssql = "REPLACE INTO `master` SET `id`='$id', `acct`='$acct', `shares` = '$shares', `symbol` = //'$sym', `last` = '$last', `change`='$change', `mktcap`='$mktcap'";
+            //echo $id."<br>";
+            //echo $acct."<br>";
+            //echo $shares."<br>";
+            //echo $sym."<br>";
+            //echo $last."<br>";
+            //echo $change."<br>";
+            //echo $mktcap."<br>";
+            //$ssql = "UPDATE ticker SET id='$id', acct='$acct', shares='$shares', symbol='$sym', last='$last', //change='$change', mktcap='$mktcap' WHERE id='$id'";
+            //$ssql = "REPLACE INTO `master` SET `id`='$id', `acct`='$acct', `shares` = '$shares', `symbol` = //'$sym', `last` = '$last', `change`='$change', `mktcap`='$mktcap'";
 
-$ssql = "UPDATE `master` SET 
-`Mkt_Capitalization` = '$Mkt_Capitalization',  
-`Updated` = '$Updated', 
-`Updated_By` = '$Updated_By', 
-`last` = '$last', 
-`change` = '$change' WHERE `CompanyID` = '$CompanyID';";
+        $ssql = "UPDATE `master` SET 
+        `Mkt_Capitalization` = '$Mkt_Capitalization',  
+        `Updated` = '$Updated', 
+        `Updated_By` = '$Updated_By', 
+        `last` = '$last', 
+        `change` = '$change' WHERE `CompanyID` = '$CompanyID';";
 
 
 		$sql_result = mysql_query($ssql,$db)
@@ -123,17 +119,18 @@ $ssql = "UPDATE `master` SET
 	echo "We are experiencing some technical problems.  Please come back later.";
 	}
 
-echo "</ul>\n";   
+    echo "</ul>\n";   
 
-mysql_close($sql_result);
-?>  
-<html>
-<head>
-<!-- meta HTTP-EQUIV="REFRESH" content="10; url=http://calendar.yahoo.com/eai04" -->
-</head>
-<body><?php
-$db = @mysql_connect("localhost", "onemedpl_hcid", "219eastred")
-		or die("Temporarily unable to connect with the database."); 
-mysql_select_db("onemedpl_HCIDS",$db); 
-?></body>
-</html>
+    mysql_close($sql_result);
+    ?>  
+    <html>
+    <head>
+    </head>
+    <body>
+        <?php
+        $db = @mysql_connect("localhost", "onemedpl_hcid", "219eastred")
+                        or die("Temporarily unable to connect with the database."); 
+        mysql_select_db("onemedpl_HCIDS",$db); 
+        ?>
+    </body>
+    </html>
