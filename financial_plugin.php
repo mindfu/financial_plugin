@@ -51,7 +51,7 @@
             // Yahoo! Finance URL to fetch the CSV data.   
             $url = sprintf("http://finance.yahoo.com/d/quotes.csv?s=$symbol&f=sl1d1t1c1ohgvj1kje7rdyv&e=.csv", $symbol);   
             $fp  = fopen($url, 'r');   
-            if (!fp) {   
+            if (!$fp) {   
                 echo 'Error : cannot recieve stock quote data.';   
             } else {   
                 $data = @fgetcsv($fp, 4096, ', ');    
@@ -71,7 +71,7 @@
                 $this->eps             = $data[12]; // e7 - EPS Estimate Current Year
                 $this->pe              = $data[13]; // r - P/E Ratio
                 $this->divrate         = $data[14]; // d - Dividend/Share
-                $this->divrate         = $data[15]; // y - Dividend Yield
+                $this->divyield         = $data[15]; // y - Dividend Yield
             }   
         }   
     }   
@@ -103,27 +103,46 @@
                 //print_r($symbols);//echo "<br /><br />";
         
         $quote->get_stock_quote($symbols[$i++]); // Pass the Company's symbol. 
-	*/
+	*/ 
     
-        $symbol = $quote->symbol;
-        $quote->get_stock_quote($symbol); // Pass the Company's symbol.    
-	
+        // Stock symbols.   
+        $symbols = array("aapl","msft");   
+        //$i = 0;     
+
+        // Declare class.   
+        $quote = new yahoo; // new stock.
+        // $symbol = $quote->symbol;
+        // global $symbol;
+        $symbol = "msft";
+        //$quote->get_stock_quote($symbols[1]); // Pass the Company's symbol. 
+        $quote->get_stock_quote($symbol); // Pass the Company's symbol.   
         
 	if ($quote->last != "0.00") {
             
             echo "<a href=\"http://finance.yahoo.com/q?s=$quote->symbol\" title=\"Yahoo! Finance: " .$symbol.    
         "\">$quote->symbol</a>\n"; // can use $quote->symbol or $symbol   
             echo "\n";   
-            echo "<br>Last Trade: \$" .$quote->last. "\n"; // price.   
+            echo "<br>Last Trade: \$" .$quote->last. " (" .$quote->date. " at " .$quote->time. ") \n"; // price.   
             echo '<br>Change: <span style="';   
             /* Make the + or - change elicit differing coloration. */  
-            echo "\">" .$quote->change. "</span><br>\n";   
-            echo "<br>Mkt Cap: \$" .$quote->capitalization. "\n"; // capitalization.   
+            $str   = $quote->change;   
+            $first = $str{0};   
+            if ($first == '+') { echo 'color:#009900;';   // If we gained print the # in GREEN.
+            } elseif ($first == '-') { echo 'color:#990000;';   // If we lost RED.
+            } else {  echo 'font-weight:normal;'; }   
+            echo "\">" .$quote->change. "</span><br>\n";  
+            echo "Open: " .$quote->open. "<br>\n";  
+            echo "High: " .$quote->high. " Low: " .$quote->low. "<br>\n";  
+            echo "Vol: " .$quote->volume. "<br>\n";  
+            echo "52 Week High: " .$quote->wkhigh. " 52 Week Low: " .$quote->wklow. "<br>\n";  
+            echo "EPS: " .$quote->eps. " PE: " .$quote->pe. "<br>\n";  
+            echo "Dividend: " .$quote->divrate. " Yield: " .$quote->divyield. "<br>\n";  
+            echo "<br>Mkt Cap: \$" .$quote->capitalization. "\n"; // capitalization.           
+            echo "<br>\n";   
             echo "<br>\n"; 
-            echo $Descrip."<br>\n";
             
         } else {
-            echo "Quote not available. \n"
+            echo "Quote not available.";
         }
 
         $last = $quote->last;
@@ -255,13 +274,15 @@
          * 
          */
 
+        $yahoo_chart = "http://ichart.finance.yahoo.com/c/bb/e/".$symbol; 
+        echo "<a href=\"\"><img src=\"$yahoo_chart\"></a><br /><br />";
+            //-$yahoo_chart = "http://ichart.finance.yahoo.com/instrument/1.0/".$symbol_lower."/chart;range=1d/image;size=239x110";--
         echo "<div style=\"width:250px;text-align:center;margin-top:0px\">"
         . "<a href=\"http://finance.yahoo.com/q?s=".$symbol."\" target=\"_blank\">Yahoo Finance</a>"
                 . "| <a href=\"http://www.google.com/finance?q=".$symbol."\" target=\"_blank\">"
-                . "Google Finance</a></div>"; }
+                . "Google Finance</a></div>"; 
 
-            //$yahoo_chart = "http://ichart.finance.yahoo.com/c/bb/e/".$symbol_lower; 
-            //-$yahoo_chart = "http://ichart.finance.yahoo.com/instrument/1.0/".$symbol_lower."/chart;range=1d/image;size=239x110";--
-                   
+        
+        
     ?>  
 
