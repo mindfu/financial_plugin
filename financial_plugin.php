@@ -75,7 +75,7 @@
             }   
         }   
     }   
-
+        /*
         $sql = "SELECT * FROM `master` WHERE `Research_Sector` = 'Medical Devices & Tech' AND Symbol != '' AND Symbol != 'private' AND Exchange = '.OB' ";
         $result = mysql_query($sql, $db);
             if ($myrow = mysql_fetch_array($result)) {
@@ -93,52 +93,53 @@
 		$last = $myrow["last"];
 		$change = $myrow["change"];
 		$Symbol = $Symbol.".OB";  
-		// Stock symbols.   
-                    $symbols = array($Symbol);   
-                    $i = 0;   
-                    // Declare class.   
-                    $quote = new yahoo; // new stock.   
-                    // Loop thru array of symbols.   
-                    //print_r($symbols);//echo "<br /><br />";
+
+                // Stock symbols.   
+                $symbols = array($Symbol);   
+                $i = 0;   
+                // Declare class.   
+                $quote = new yahoo; // new stock.   
+                // Loop thru array of symbols.   
+                //print_r($symbols);//echo "<br /><br />";
+        
+        $quote->get_stock_quote($symbols[$i++]); // Pass the Company's symbol. 
+	*/
+    
+        $symbol = $quote->symbol;
+        $quote->get_stock_quote($symbol); // Pass the Company's symbol.    
 	
-    $quote->get_stock_quote($symbols[$i++]); // Pass the Company's symbol.    
-	
-	if ($quote->last == "0.00") {
+        
+	if ($quote->last != "0.00") {
+            
             echo "<a href=\"http://finance.yahoo.com/q?s=$quote->symbol\" title=\"Yahoo! Finance: " .$symbol.    
         "\">$quote->symbol</a>\n"; // can use $quote->symbol or $symbol   
             echo "\n";   
             echo "<br>Last Trade: \$" .$quote->last. "\n"; // price.   
             echo '<br>Change: <span style="';   
             /* Make the + or - change elicit differing coloration. */  
-            $str   = $quote->change;   
-            $first = $str{0};   
-            if ($first == '+') {       // If we gained print the # in GREEN.   
-                echo 'color:#009900;';   
-            } elseif ($first == '-') { // If we lost RED.   
-                echo 'color:#990000;';   
-            } else {                   // NO color.   
-                echo 'font-weight:normal;';   
-            } // endelseif   
             echo "\">" .$quote->change. "</span><br>\n";   
-
             echo "<br>Mkt Cap: \$" .$quote->capitalization. "\n"; // capitalization.   
             echo "<br>\n"; 
             echo $Descrip."<br>\n";
-	}
-	
-	$last = $quote->last;
-	$change = $quote->change;
-	$Mkt_Capitalization = $quote->capitalization;
+            
+        } else {
+            echo "Quote not available. \n"
+        }
 
-            //echo $id."<br>";
-            //echo $acct."<br>";
-            //echo $shares."<br>";
-            //echo $sym."<br>";
-            //echo $last."<br>";
-            //echo $change."<br>";
-            //echo $mktcap."<br>";
+        $last = $quote->last;
+        $change = $quote->change;
+        $Mkt_Capitalization = $quote->capitalization;
+
+            /*
+            echo $id."<br>";
+            echo $acct."<br>";
+            echo $shares."<br>";
+            echo $sym."<br>";
+            echo $last."<br>";
+            echo $change."<br>";
+            echo $mktcap."<br>";
             //$ssql = "UPDATE ticker SET id='$id', acct='$acct', shares='$shares', symbol='$sym', last='$last', //change='$change', mktcap='$mktcap' WHERE id='$id'";
-            //$ssql = "REPLACE INTO `master` SET `id`='$id', `acct`='$acct', `shares` = '$shares', `symbol` = //'$sym', `last` = '$last', `change`='$change', `mktcap`='$mktcap'";
+            $ssql = "REPLACE INTO `master` SET `id`='$id', `acct`='$acct', `shares` = '$shares', `symbol` = //'$sym', `last` = '$last', `change`='$change', `mktcap`='$mktcap'";
 
             $ssql = "UPDATE `master` SET 
             `Mkt_Capitalization` = '$Mkt_Capitalization',  
@@ -146,27 +147,29 @@
             `Updated_By` = '$Updated_By', 
             `last` = '$last', 
             `change` = '$change' WHERE `CompanyID` = '$CompanyID';";
-
-
+            */
+            /*
             $sql_result = mysql_query($ssql,$db)
                     or die("Couldn't execute query.");
-            // echo $sql_result;
+                // echo $sql_result;
             if (!$sql_result) {
             echo "<center><h2>Sorry, we are experiencing problems. <br>Please return later!</h2></center>";
             }
-
+            */
 		//echo $id." ".$acct." ".$shares." ".$sym." ".$last." ".$change." ".$mktcap;
-        }
+        /*}
 
             while ($myrow = mysql_fetch_array($result));
             echo "\n";
             } else {
             echo "We are experiencing some technical problems.  Please come back later.";
             }
-
+        
         echo "</ul>\n";   
         mysql_close($sql_result);
-  
+        */
+        
+        /*
         ######### EASY VERSION
         //tell wordpress to register the demolistposts shortcode
         add_shortcode("demo-list-posts", "demolistposts_handler");
@@ -215,7 +218,8 @@
             //send back text to replace shortcode in post
             return $demolph_output;
         }
-
+        */
+        /*
         //use wp_specialchars_decode so html is treated as html and not text
         //use wp_specialchars when outputting text to ensure it is valid html
         function demolistposts_function($incomingfromhandler) {
@@ -241,6 +245,7 @@
             //send back text to calling function
             return $demolp_output;
         }
+        */
 
         
         /*
@@ -250,24 +255,13 @@
          * 
          */
 
-        if (($row['Exchange'] == "Euronext")||($row['Exchange'] == "euronext")) {} else { 
-            echo "<div style=\"width:250px;text-align:center;margin-top:0px\">"
-            . "<a href=\"http://finance.yahoo.com/q?s=".$row['Symbol']."\" target=\"_blank\">Yahoo Finance</a>"
-                    . "| <a href=\"http://www.google.com/finance?q=".$row['Symbol']."\" target=\"_blank\">"
-                    . "Google Finance</a></div>"; }
-		
+        echo "<div style=\"width:250px;text-align:center;margin-top:0px\">"
+        . "<a href=\"http://finance.yahoo.com/q?s=".$symbol."\" target=\"_blank\">Yahoo Finance</a>"
+                . "| <a href=\"http://www.google.com/finance?q=".$symbol."\" target=\"_blank\">"
+                . "Google Finance</a></div>"; }
 
-        //$symbol_lower = strtolower($row['Symbol']); $yahoo_chart = "http://ichart.finance.yahoo.com/c/bb/e/".$symbol_lower; 
-        $symbol_lower = strtolower($row['Symbol']); if (($row['Exchange'] == "Euronext")||($row['Exchange'] == "euronext")) 
-            { $yahoo_chart = ""; } else {
-                //if ($company_id = "15402") {} else {
-                $yahoo_chart = "http://ichart.finance.yahoo.com/c/bb/e/".$symbol_lower;
-                //}
-            }
-                //-$yahoo_chart = "http://ichart.finance.yahoo.com/instrument/1.0/".$symbol_lower."/chart;range=1d/image;size=239x110";--
-                //IFRAME SRC="http://www.onemedplace.com/database/comp_chart.php?Symbol=<?php echo $row['Symbol']; </IFRAME-->
-
-        
-        
+            //$yahoo_chart = "http://ichart.finance.yahoo.com/c/bb/e/".$symbol_lower; 
+            //-$yahoo_chart = "http://ichart.finance.yahoo.com/instrument/1.0/".$symbol_lower."/chart;range=1d/image;size=239x110";--
+                   
     ?>  
 
