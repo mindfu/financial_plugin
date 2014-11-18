@@ -96,6 +96,12 @@
             return $color;
         }
         
+        /* Allow access to different charts with parameters */
+        function financial_chart($symbol,$time_range,$chart_size) 
+        {
+            $yahoo_chart = "http://ichart.finance.yahoo.com/instrument/1.0/".$symbol."/chart;range=".$time_range."/image;size=".$chart_size."";
+            return $yahoo_chart; 
+        }     
         /* register the shortcode with wordpress */
         add_shortcode("financial_plugin", "financial_plugin_handler");
         
@@ -120,8 +126,7 @@
             $quote->get_stock_quote($symbol); // Pass the Company's symbol.
         
             if ($quote->last != "0.00") {
-                
-                
+
                 
             /*
             * chart reference codes 
@@ -171,8 +176,9 @@
                 echo "Quote not available.";
             }
             
-        /* return text to calling function */
+        /* return text to calling function */        
         return $output;
+        include ("tabs.php");
         
         }        
     ?>  
