@@ -1,0 +1,131 @@
+
+		<!--link rel="stylesheet" type="text/css" href="css/default.css" /-->
+
+		<!-- Edit Below -->
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<script type="text/javascript" src="css/animate.min.css"></script>
+                <link href='css/animate.min.css' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="../file/js/modernizr.js"></script>
+		<style type="text/css">
+	      body, html {
+	          height: 100%;
+	          margin: 0;
+	          -webkit-font-smoothing: antialiased;
+	          font-weight: 100;
+	          //background: #aadfeb;
+	          text-align: center;
+	          font-family: helvetica;
+	      }
+	      
+	      .tabs input[type=radio] {
+	          position: absolute;
+	          top: -9999px;
+	          left: -9999px;
+	      }
+	      .tabs {
+	        width: 350px;
+	        float: none;
+	        list-style: none;
+	        position: relative;
+	        padding: 0;
+	        margin: 105px auto;
+	      }
+	      .tabs li{
+	        float: left;
+	      }
+	      .tabs label {
+	          display: block;
+	          padding: 5px 5px;
+	          border-radius: 2px 2px 0 0;
+	          color: #08C;
+	          font-size: 13px;
+	          font-weight: normal;
+	          font-family: helvetica;
+	          //background: rgba(255,255,255,0.2);
+	          cursor: pointer;
+	          position: relative;
+	          top: 3px;
+	          -webkit-transition: all 0.2s ease-in-out;
+	          -moz-transition: all 0.2s ease-in-out;
+	          -o-transition: all 0.2s ease-in-out;
+	          transition: all 0.2s ease-in-out;
+	      }
+	      .tabs label:hover {
+	        background: rgba(255,255,255,0.5);
+	        top: 0;
+	      }
+	      
+	      [id^=tab]:checked + label {
+	        background: #fff;
+	        color: #08C;
+                border-left: solid 2px #08C;
+                border-right: solid 2px #08C;
+                border-top: solid 2px #08C;
+	        top: 0;
+	      }
+	      
+	      [id^=tab]:checked ~ [id^=tab-content] {
+	          display: block;
+	      }
+	      .tab-content{
+	        z-index: 2;
+	        display: none;
+	        text-align: left;
+	        width: 100%;
+	        font-size: 15px;
+	        line-height: 100%;
+	        padding-top: 10px;
+	        background: #fff;
+                border: solid 0px #08C;
+	        padding: 15px;
+	        color: #08C;
+	        position: absolute;
+	        top: 53px;
+	        left: 0;
+	        box-sizing: border-box;
+	        -webkit-animation-duration: 0.5s;
+	        -o-animation-duration: 0.5s;
+	        -moz-animation-duration: 0.5s;
+	        animation-duration: 0.5s;
+	      }
+	    </style>
+	</head>
+	<body>
+		<div class="container">
+		
+			<div class="main">
+	        	<ul class="tabs">
+			        <li>
+			          <input type="radio" checked name="tabs" id="tab1">
+			          <label for="tab1">tab 1</label>
+			          <div id="tab-content1" class="tab-content animated fadeIn">
+			            "Lorem ipsum dolor sit amet, </div>
+			        </li>
+			        <li>
+			          <input type="radio" name="tabs" id="tab2">
+			          <label for="tab2">tab 2</label>
+			          <div id="tab-content2" class="tab-content animated fadeIn">
+			            "Sed ut perspiciatis unde omnis iste natus </div>
+			        </li>
+			        <li>
+			          <input type="radio" name="tabs" id="tab3">
+			          <label for="tab3">tab 3</label>
+			          <div id="tab-content3" class="tab-content animated fadeIn">
+			            "But I must explain to you how all this mistaken idea of</div>
+			        </li>
+			        <li>
+			          <input type="radio" name="tabs" id="tab4">
+			          <label for="tab4">tab 4</label>
+			          <div id="tab-content4" class="tab-content animated fadeIn">
+			            "But I must explain to you how all this mistaken idea of</div>
+			        </li>
+			        <li>
+			          <input type="radio" name="tabs" id="tab5">
+			          <label for="tab5">tab 5</label>
+			          <div id="tab-content5" class="tab-content animated fadeIn">
+			            "But I must explain to you how all this mistaken idea of</div>
+			        </li>
+			    </ul>
+	      	</div>
+		</div><!-- Container -->
