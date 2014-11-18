@@ -6,7 +6,16 @@
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/tabs.css" />
     <script src="http://www.modernizr.com/downloads/modernizr-latest.js"></script>
+<?php
 
+    /* Allow access to different charts with parameters */
+    function financial_chart($symbol,$time_range,$chart_size) 
+    {
+        $yahoo_chart = "http://ichart.finance.yahoo.com/instrument/1.0/".$symbol."/chart;range=".$time_range."/image;size=".$chart_size."";
+        return $yahoo_chart; 
+    }   
+    
+?>
     <div class="container"><!-- Start Tabs Container -->	
         <div class="main">
             <ul class="tabs">

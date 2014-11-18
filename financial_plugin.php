@@ -77,11 +77,11 @@
         {
             $page_url = 'http';
             if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
-            $page_url .= "://";
+                $page_url .= "://";
             if ($_SERVER["SERVER_PORT"] != "80") {
-             $page_url .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+                $page_url .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
             } else {
-             $page_url .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+                $page_url .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
             }
             return $page_url;
         }
@@ -102,6 +102,7 @@
             $yahoo_chart = "http://ichart.finance.yahoo.com/instrument/1.0/".$symbol."/chart;range=".$time_range."/image;size=".$chart_size."";
             return $yahoo_chart; 
         }     
+        
         /* register the shortcode with wordpress */
         add_shortcode("financial_plugin", "financial_plugin_handler");
         
@@ -178,7 +179,7 @@
             
         /* return text to calling function */        
         return $output;
-        include ("tabs.php");
+        //include ("tabs.php");
         
         }        
     ?>  
