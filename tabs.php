@@ -1,21 +1,14 @@
 
     <!--link rel="stylesheet" type="text/css" href="css/default.css" /-->
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script type="text/javascript" src="css/animate.min.css"></script>
     <!--link href='css/animate.min.css' rel='stylesheet' type='text/css'-->
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="stylesheet" type="text/css" href="css/tabs.css" />
-    <script src="http://www.modernizr.com/downloads/modernizr-latest.js"></script>
-<?php
-
-    /* Allow access to different charts with parameters */
-    function financial_chart($symbol,$time_range,$chart_size) 
-    {
-        $yahoo_chart = "http://ichart.finance.yahoo.com/instrument/1.0/".$symbol."/chart;range=".$time_range."/image;size=".$chart_size."";
-        return $yahoo_chart; 
-    }   
+    <!--link rel="stylesheet" type="text/css" href="css/style.css" /-->
+    <!--script type="text/javascript" src="css/animate.min.css"></script-->    
+    <!--script type="text/javascript" src="js/jquery-1.9.1.js"></script-->    
+    <!--script type="text/javascript" src="js/jquery.js"></script-->
     
-?>
+    <script src="js/modernizr-2.8.3.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/tabs.css" />
+
     <div class="container"><!-- Start Tabs Container -->	
         <div class="main">
             <ul class="tabs">

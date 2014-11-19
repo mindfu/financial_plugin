@@ -1,13 +1,12 @@
 /* 
     Created on : Nov 18, 2014, 4:31:01 PM
     Author     : cscrivo
-	      
+*/	      
     .tabs input[type=radio] {
         position: absolute;
         top: -9999px;
         left: -9999px;
     }
-    */
     .tabs {
       width: 350px;
       float: none;
@@ -67,7 +66,7 @@
       padding: 15px;
       color: #08C;
       position: absolute;
-      top: -153px;
+      top: -153px; 
       left: 0;
       box-sizing: border-box;
       //-webkit-animation-duration: 0.5s;

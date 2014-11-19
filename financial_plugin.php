@@ -1,13 +1,28 @@
 <?php
     /**
-    * Plugin Name: Financial Plugin
-    * Plugin URI: http://mindfu.com/financial_plugin
-    * Description: This plugin uses yahoo data to display financial information about companies using shortcodes.
-    * Version: 1.0
-    * Author: Chris Scrivo
-    * Author URI: http://chrisscrivo.com
-    * License: GPL12
-    */ 
+     * WordPress Financial Plugin
+     *
+     * The WordPress Financial Plugin is a way to quickly add financial information and charts about publicly traded companies.
+     *
+     * @package   Financial Plugin
+     * @author    Chris Scrivo <info@mindfu.com>
+     * @license   GPL-2.0+
+     * @link      http://mindfu.com/financial_plugin
+     * @copyright 2014 Mindfu 
+     *
+     * @wordpress-plugin
+     * Plugin Name:       Financial Plugin
+     * Plugin URI:        @TODO
+     * Description:       The WordPress Financial Plugin is a way to quickly add financial information and charts about publicly traded companies.
+     * Version:           1.0.0
+     * Author:            Chris Scrivo
+     * Author URI:        http://mindfu.com/financial_plugin
+     * Text Domain:       widget-name
+     * License:           GPL-2.0+
+     * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+     * Domain Path:       /lang
+     * GitHub Plugin URI: https://github.com/mindfu/financial_plugin
+     */
     /* 
     * Financial Plugin (Wordpress Plugin)
     * Copyright (C) 2014 Chris Scrivo
@@ -38,7 +53,6 @@
     * http://www.canbike.org/information-technology/yahoo-finance-url-download-to-a-csv-file.html
      * s l1 d1 t1 c1 o h g v j1 k j e7 r d y 
     */
-
     /* Create a class to get the quote */
     Class yahoo   
     {
@@ -103,8 +117,16 @@
             return $yahoo_chart; 
         }     
         
+        /* add css and js into wordpress */
+        function add_css_and_js(){
+            wp_enqueue_script('jquery', $this->urlpath  . '/js/jquery-1.9.1.js', array('jquery'), '1.9.1', true);
+            wp_enqueue_script('modernizr', $this->urlpath  . '/js/modernizr-2.8.3.js', false, '2.8.3', true);
+            wp_enqueue_style( 'tabs_css', plugins_url('/css/tabs.css', __FILE__), false, false, 'all');
+            }
+        //add_action('wp_enqueue_scripts', "add_css_and_js");
+        
         /* register the shortcode with wordpress */
-        add_shortcode("financial_plugin", "financial_plugin_handler");
+        //add_shortcode("financial_plugin", "financial_plugin_handler");
         
         /* retrieve perameters from shortcode */
         function financial_plugin_handler($symb) 
@@ -123,8 +145,7 @@
         {
             // Declare class.   
             $quote = new yahoo; // new stock.
-            $symbol = $symb;
-            $quote->get_stock_quote($symbol); // Pass the Company's symbol.
+            $quote->get_stock_quote($symb); // Pass the Company's symbol.
         
             if ($quote->last != "0.00") {
 
@@ -170,8 +191,6 @@
             $output .= "<META http-equiv=\"refresh\" content=\"900;URL=".page_url()."\">"; 
 
             
-            
-
             } else {
                 /* cannot find quote information */
                 echo "Quote not available.";
@@ -179,8 +198,17 @@
             
         /* return text to calling function */        
         return $output;
-        //include ("tabs.php");
         
-        }        
-    ?>  
+        }   
+        
+        //http://code.tutsplus.com/articles/create-wordpress-plugins-with-oop-techniques--net-20153
+        //function wp_financial_plugin($symb, $width = 239, $height = 110, $capitalization = true, $volume = true, $yield = true, $divrate = true, $pe = true, $eps = true, $low52 = true, $high52 = true)
+        function wp_financial_plugin($symb)
+        {
+            //$wpfinancial_plugin = new WPDribbble;
+            //echo $wpDribbble->financialplugin_function($user, $images, $width, $height, $caption);
+            echo financialplugin_function($symb);
+        }
+        //echo wp_financial_plugin($symb);
+?>  
 
