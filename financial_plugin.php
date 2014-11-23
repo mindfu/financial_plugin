@@ -90,7 +90,7 @@
         function page_url() 
         {
             $page_url = 'http';
-            if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+            if ($_SERVER["HTTPS"] === "on") {$pageURL .= "s";}
                 $page_url .= "://";
             if ($_SERVER["SERVER_PORT"] != "80") {
                 $page_url .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
@@ -119,14 +119,14 @@
         
         /* add css and js into wordpress */
         function add_css_and_js(){
-            wp_enqueue_script('jquery', $this->urlpath  . '/js/jquery-1.9.1.js', array('jquery'), '1.9.1', true);
-            wp_enqueue_script('modernizr', $this->urlpath  . '/js/modernizr-2.8.3.js', false, '2.8.3', true);
+            wp_enqueue_script('jquery', get_template_directory_uri() . '/js/jquery-1.9.1.js', ['jquery'], '1.9.1', true);
+            wp_enqueue_script('modernizr', get_template_directory_uri() . '/js/modernizr-2.8.3.js', false, '2.8.3', true);
             wp_enqueue_style( 'tabs_css', plugins_url('/css/tabs.css', __FILE__), false, false, 'all');
             }
-        //add_action('wp_enqueue_scripts', "add_css_and_js");
+        add_action('wp_enqueue_scripts', "add_css_and_js");
         
         /* register the shortcode with wordpress */
-        //add_shortcode("financial_plugin", "financial_plugin_handler");
+        add_shortcode("financial_plugin", "financial_plugin_handler");
         
         /* retrieve perameters from shortcode */
         function financial_plugin_handler($symb) 
@@ -135,28 +135,85 @@
             'symb' => 'symb'
             ), $symb));     
             //run function that actually does the work of the plugin
-            $fin_output = financialplugin_function($symb);
-            //send back text to replace shortcode in post
+            //$fin_output = financialplugin_function($symb);
+            $finish = new chart; // new chart.
+            $fin_output = $finish->__construct($symb); // Pass the Company's symbol.
+            //send back text to replace shortcode in post            
             return $fin_output;
         }
-        
-        /* prepare shortcode output */
+        /*
+        /* prepare shortcode output /
         function financialplugin_function($symb) 
         {
             // Declare class.   
-            $quote = new yahoo; // new stock.
+            $quote = new yahoo;
             $quote->get_stock_quote($symb); // Pass the Company's symbol.
         
             if ($quote->last != "0.00") {
-
-                
-            /*
-            * chart reference codes 
-            * https://code.google.com/p/yahoo-finance-managed/wiki/miscapiImageDownload
-            * http://stackoverflow.com/questions/9807353/getting-stock-graphs-from-yahoo-finance
-            */
             //$yahoo_chart = "http://ichart.finance.yahoo.com/c/bb/e/".$symbol;
-            $yahoo_chart = "http://ichart.finance.yahoo.com/instrument/1.0/".$symbol."/chart;range=5d/image;size=239x110";
+            $yahoo_chart = "http://ichart.finance.yahoo.com/instrument/1.0/".$symb."/chart;range=5d/image;size=239x110";
+            
+            $output .= "<div style=\"height:250px;float:left;margin-right:20px;\">";    
+                $output .= "<div style=\"width:100%;text-align:center;margin-bottom:10px;\">"; //.$quote->symbol;
+                $output .= "<span style=\"font-size:23px;line-height:30px;\"><strong>\$" .$quote->last. "</strong>&nbsp;&nbsp;"; // price.   
+                $output .= "<span style=\"".get_change_color($quote->change). "\">(".$quote->change.")</span>\n"; // Company symbol 
+                $output .= "</div>";
+                /// CHART 
+                $output .= "<a href=\"http://finance.yahoo.com/q?s=$quote->symbol\" title=\"Yahoo! Finance: " .$symb.    
+                "\"><img src=\"$yahoo_chart\"></a><br />";
+                $output .= "<div style=\"width:100%;text-align:center;font-size:10px;\">(" .$quote->date. " at " .$quote->time. ")<br />";
+                $output .= "<a href=\"http://finance.yahoo.com/q?s=".$symbol."\" target=\"_blank\">Yahoo Finance</a>"
+                        . "| <a href=\"http://www.google.com/finance?q=".$symbol."\" target=\"_blank\">"
+                        . "Google Finance</a></div>";   
+            
+            $output .= "</div>";
+            
+            $output .= "<div>"; 
+                $output .= "52 Wk High: " .$quote->wkhigh. "<br>\n";
+                $output .= "52 Wk Low: " .$quote->wklow. "<br>\n";    
+                $output .= "EPS: " .$quote->eps. "<br>\n";
+                $output .= "PE (ttm): " .$quote->pe. "<br>\n"; 
+                $output .= "Div Rate: " .$quote->divrate. "<br>\n";
+                $output .= "Yield: " .$quote->divyield. "<br>\n";  
+                $output .= "Mkt Cap: \$" .$quote->capitalization. "<br>\n";    
+                $output .= "Vol: " .$quote->volume. "<br>\n";   
+                //$output .= "High: " .$quote->high. " Low: " .$quote->low. "<br>\n";
+                //$output .= "Open: " .$quote->open. "<br>\n";          
+                $output .= "<br>\n";   
+            $output .= "<br>\n</div>"; 
+            $output .= "<META http-equiv=\"refresh\" content=\"900;URL=".page_url()."\">"; 
+
+            
+            } else {
+                / cannot find quote information /
+                echo "Quote not available.";
+            }
+            
+        / return text to calling function /        
+        return $output;
+        }   
+        */
+        //http://code.tutsplus.com/articles/create-wordpress-plugins-with-oop-techniques--net-20153
+        //function wp_financial_plugin($symb, $width = 239, $height = 110, $capitalization = true, $volume = true, $yield = true, $divrate = true, $pe = true, $eps = true, $low52 = true, $high52 = true)
+
+        /*
+        * chart reference codes 
+        * https://code.google.com/p/yahoo-finance-managed/wiki/miscapiImageDownload
+        * http://stackoverflow.com/questions/9807353/getting-stock-graphs-from-yahoo-finance
+        * $yahoo_chart = "http://ichart.finance.yahoo.com/c/bb/e/".$symb;
+        */
+        class chart {
+          function __construct($symb="aapl") {
+           // Declare class.   
+            $quote = new yahoo; // new stock.
+            /* @var $_stock_quote type */
+            $_stock_quote = $quote->get_stock_quote($symb); // Pass the Company's symbol.
+        
+            if ($quote->last != "0.00") {                
+
+            /* yahoo 
+chart api */
+            $yahoo_chart = "http://ichart.finance.yahoo.com/instrument/1.0/".$symb."/chart;range=5d/image;size=239x110";
             
             $output .= "<div style=\"height:250px;float:left;margin-right:20px;\">";    
 
@@ -165,12 +222,12 @@
                 $output .= "<span style=\"".get_change_color($quote->change). "\">(".$quote->change.")</span>\n"; // Company symbol 
                 $output .= "</div>";
                 /// CHART 
-                $output .= "<a href=\"http://finance.yahoo.com/q?s=$quote->symbol\" title=\"Yahoo! Finance: " .$symbol.    
+                $output .= "<a href=\"http://finance.yahoo.com/q?s=$quote->symbol\" title=\"Yahoo! Finance: " .$symb.    
                 "\"><img src=\"$yahoo_chart\"></a><br />";
 
                 $output .= "<div style=\"width:100%;text-align:center;font-size:10px;\">(" .$quote->date. " at " .$quote->time. ")<br />";
-                $output .= "<a href=\"http://finance.yahoo.com/q?s=".$symbol."\" target=\"_blank\">Yahoo Finance</a>"
-                        . "| <a href=\"http://www.google.com/finance?q=".$symbol."\" target=\"_blank\">"
+                $output .= "<a href=\"http://finance.yahoo.com/q?s=".$symb."\" target=\"_blank\">Yahoo Finance</a>"
+                        . "| <a href=\"http://www.google.com/finance?q=".$symb."\" target=\"_blank\">"
                         . "Google Finance</a></div>";   
             
             $output .= "</div>";
@@ -196,19 +253,12 @@
                 echo "Quote not available.";
             }
             
-        /* return text to calling function */        
-        return $output;
-        
-        }   
-        
-        //http://code.tutsplus.com/articles/create-wordpress-plugins-with-oop-techniques--net-20153
-        //function wp_financial_plugin($symb, $width = 239, $height = 110, $capitalization = true, $volume = true, $yield = true, $divrate = true, $pe = true, $eps = true, $low52 = true, $high52 = true)
-        function wp_financial_plugin($symb)
-        {
-            //$wpfinancial_plugin = new WPDribbble;
-            //echo $wpDribbble->financialplugin_function($user, $images, $width, $height, $caption);
-            echo financialplugin_function($symb);
+          /* return text to calling function */        
+          return $output;
+ 
+          }
         }
-        //echo wp_financial_plugin($symb);
-?>  
+        new chart();
+
+ 
 
