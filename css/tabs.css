@@ -102,6 +102,8 @@
       //-moz-animation-duration: 0.5s;
       //animation-duration: 0.5s;
     }
+    
+    /* right column */
     .details {
         padding-top:40px;
     }
