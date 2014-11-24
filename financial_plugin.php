@@ -125,22 +125,7 @@
             }
         add_action('wp_enqueue_scripts', "add_css_and_js");
         
-        /* register the shortcode with wordpress */
-        add_shortcode("financial_plugin", "financial_plugin_handler");
-        
-        /* retrieve perameters from shortcode */
-        function financial_plugin_handler($symb) 
-        {
-            extract(shortcode_atts(array(
-            'symb' => 'symb'
-            ), $symb));     
-            //run function that actually does the work of the plugin
-            //$fin_output = financialplugin_function($symb);
-            $finish = new chart; // new chart.
-            $fin_output = $finish->__construct($symb); // Pass the Company's symbol.
-            //send back text to replace shortcode in post            
-            return $fin_output;
-        }
+
         /*
         /* prepare shortcode output /
         function financialplugin_function($symb) 
@@ -203,7 +188,8 @@
         * $yahoo_chart = "http://ichart.finance.yahoo.com/c/bb/e/".$symb;
         */
         class chart {
-          function __construct($symb="aapl") {
+          public $symb;
+          function __construct($symb="") {
            // Declare class.   
             $quote = new yahoo; // new stock.
             /* @var $_stock_quote type */
@@ -215,24 +201,24 @@
 chart api */
             $yahoo_chart = "http://ichart.finance.yahoo.com/instrument/1.0/".$symb."/chart;range=5d/image;size=239x110";
             
-            $output .= "<div style=\"height:250px;float:left;margin-right:20px;\">";    
-
-                $output .= "<div style=\"width:100%;text-align:center;margin-bottom:10px;\">"; //.$quote->symbol;
-                $output .= "<span style=\"font-size:23px;line-height:30px;\"><strong>\$" .$quote->last. "</strong>&nbsp;&nbsp;"; // price.   
+                $output .= "<div style=\"height:230px;float:left;margin-right:20px;\">"; 
+                /// CHART 
+                //$output .= "<a href=\"http://finance.yahoo.com/q?s=$quote->symbol\" title=\"Yahoo! Finance: " .$symb. "\"><img src=\"$yahoo_chart\"></a><br />";
+                   
+                include( plugin_dir_path( __FILE__ ) . 'tabs2.php');
+                
+                $output .= "<div style=\"text-align:center;margin-bottom:0px;margin-top:180px;\">"; //.$quote->symbol;
+                $output .= "<span style=\"font-size:23px;\"><strong>\$" .$quote->last. "</strong>&nbsp;&nbsp;"; // price.   
                 $output .= "<span style=\"".get_change_color($quote->change). "\">(".$quote->change.")</span>\n"; // Company symbol 
                 $output .= "</div>";
-                /// CHART 
-                $output .= "<a href=\"http://finance.yahoo.com/q?s=$quote->symbol\" title=\"Yahoo! Finance: " .$symb.    
-                "\"><img src=\"$yahoo_chart\"></a><br />";
-
-                $output .= "<div style=\"width:100%;text-align:center;font-size:10px;\">(" .$quote->date. " at " .$quote->time. ")<br />";
+                
+                $output .= "<div class=\"caption\">(" .$quote->date. " at " .$quote->time. ")<br />";
                 $output .= "<a href=\"http://finance.yahoo.com/q?s=".$symb."\" target=\"_blank\">Yahoo Finance</a>"
                         . "| <a href=\"http://www.google.com/finance?q=".$symb."\" target=\"_blank\">"
-                        . "Google Finance</a></div>";   
+                        . "Google Finance</a></div>";               
+                $output .= "</div>";
             
-            $output .= "</div>";
-            
-            $output .= "<div>"; 
+                $output .= "<div style=\"padding-top:20px;\">";     
                 $output .= "52 Wk High: " .$quote->wkhigh. "<br>\n";
                 $output .= "52 Wk Low: " .$quote->wklow. "<br>\n";    
                 $output .= "EPS: " .$quote->eps. "<br>\n";
@@ -246,19 +232,35 @@ chart api */
                 $output .= "<br>\n";   
             $output .= "<br>\n</div>"; 
             $output .= "<META http-equiv=\"refresh\" content=\"900;URL=".page_url()."\">"; 
-
+            
             
             } else {
                 /* cannot find quote information */
                 echo "Quote not available.";
             }
-            
+
           /* return text to calling function */        
           return $output;
  
           }
         }
-        new chart();
-
+        //new chart();
  
+        /* register the shortcode with wordpress */
+        add_shortcode("financial_plugin", "financial_plugin_handler");
+        
+        /* retrieve perameters from shortcode */
+        function financial_plugin_handler($symb) 
+        {
+            extract(shortcode_atts(array(
+            'symb' => 'symb'
+            ), $symb));     
+            //run function that actually does the work of the plugin
+            //$fin_output = financialplugin_function($symb);
+            $finish = new chart; // new chart.
+            $fin_output = $finish->__construct($symb); // Pass the Company's symbol.
+            //send back text to replace shortcode in post            
+            return $fin_output;
+        }
+             
 

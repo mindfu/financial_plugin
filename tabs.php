@@ -5,17 +5,22 @@
     <!--script type="text/javascript" src="css/animate.min.css"></script-->    
     <!--script type="text/javascript" src="js/jquery-1.9.1.js"></script-->    
     <!--script type="text/javascript" src="js/jquery.js"></script-->
-    
+    <?php
+            function financial_chart($symbol,$time_range,$chart_size) 
+        {
+            $yahoo_chart = "http://ichart.finance.yahoo.com/instrument/1.0/".$symbol."/chart;range=".$time_range."/image;size=".$chart_size."";
+            return $yahoo_chart; 
+        }    
+    ?>
     <script src="js/modernizr-2.8.3.js"></script>
     <link rel="stylesheet" type="text/css" href="css/tabs.css" />
-
-    <div class="container"><!-- Start Tabs Container -->	
+    <div class="container"><!-- Start Tabs Container -->
         <div class="main">
             <ul class="tabs">
                 <li>
                   <input type="radio" checked name="tabs" id="tab1">
                   <label for="tab1">1d</label>
-                  <div id="tab-content1" class="tab-content animated fadeIn">
+                  <div id="tab-content1" class="tab-content animated fadeIn">   
                   <?php echo "<img src=\"".financial_chart("aapl","1d","239x110")."\"></a><br />"; ?></div>
                 </li>
                 <li>
@@ -51,3 +56,5 @@
             </ul>
         </div>
     </div><!-- End Tabs Container -->
+    <div style="padding-top:10px;"><a href="http://us.rd.yahoo.com/finance/news/rss/add/*http://finance.yahoo.com/rss/headline?s=<?php echo $symbol; ?>"><img src="img/rss_icon.png"></a></div>
+ 

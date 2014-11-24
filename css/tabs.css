@@ -2,24 +2,43 @@
     Created on : Nov 18, 2014, 4:31:01 PM
     Author     : cscrivo
 */	      
+    .container {
+        //border:solid 1px black;
+        float:left;
+        clear:right;
+    }
+    .caption {
+        margin-top:0px;
+        width:100%;
+        text-align:center;
+        font-size:10px;
+    }
     .tabs input[type=radio] {
         position: absolute;
         top: -9999px;
         left: -9999px;
     }
     .tabs {
-      width: 350px;
+      width: 270px;
       float: none;
       list-style: none;
       position: relative;
       padding: 0;
-      margin: 205px auto;
+      //margin: 205px auto;
     }
     .tabs li{
       float: left;
+      list-style: none;
+      margin-left:3px;
+    }
+    ul.tabs li{
+      margin-left:10px;
+    }
+    .tabs input{
+      list-style: none;
     }
     .tabs label {
-        margin-left:12px;
+        margin-left:5px;
         display: block;
         padding: 5px 5px;
         border-radius: 2px 2px 0 0;
@@ -58,17 +77,18 @@
       display: none;
       text-align: left;
       width: 100%;
-      font-size: 15px;
+      //font-size: 15px;
       line-height: 100%;
-      padding-top: 10px;
+      //padding-top: 10px;
       background: #fff;
       border: solid 0px #08C;
-      padding: 15px;
+      padding: 5px;
       color: #08C;
       position: absolute;
-      top: -153px; 
+      top: 33px; 
       left: 0;
       box-sizing: border-box;
+      //border: solid 1px black;
       //-webkit-animation-duration: 0.5s;
       //-o-animation-duration: 0.5s;
       //-moz-animation-duration: 0.5s;
