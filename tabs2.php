@@ -48,6 +48,6 @@
     $output .= "         </ul>
         </div>
     </div><!-- End Tabs Container -->";
-    $output .= "<div style=\"\"><a href=\"http://us.rd.yahoo.com/finance/news/rss/add/*http://finance.yahoo.com/rss/headline?s=".$symbol."><img src=\"./img/rss_icon.png\"></a></div>";
+    //$output .= "<div style=\"\"><a href=\"http://us.rd.yahoo.com/finance/news/rss/add/*http://finance.yahoo.com/rss/headline?s=".$symbol."><img src=\"./img/rss_icon.png\"></a></div>";
  
     

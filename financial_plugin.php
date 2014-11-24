@@ -186,6 +186,7 @@
         * https://code.google.com/p/yahoo-finance-managed/wiki/miscapiImageDownload
         * http://stackoverflow.com/questions/9807353/getting-stock-graphs-from-yahoo-finance
         * $yahoo_chart = "http://ichart.finance.yahoo.com/c/bb/e/".$symb;
+        * http://hardcorewp.com/2012/using-classes-as-code-wrappers-for-wordpress-plugins/
         */
         class chart {
           public $symb;
@@ -197,28 +198,27 @@
         
             if ($quote->last != "0.00") {                
 
-            /* yahoo 
-chart api */
+            /* yahoo chart api */
             $yahoo_chart = "http://ichart.finance.yahoo.com/instrument/1.0/".$symb."/chart;range=5d/image;size=239x110";
             
-                $output .= "<div style=\"height:230px;float:left;margin-right:20px;\">"; 
+                $output .= "<div class=\"big_box\">"; 
                 /// CHART 
                 //$output .= "<a href=\"http://finance.yahoo.com/q?s=$quote->symbol\" title=\"Yahoo! Finance: " .$symb. "\"><img src=\"$yahoo_chart\"></a><br />";
-                   
                 include( plugin_dir_path( __FILE__ ) . 'tabs2.php');
                 
-                $output .= "<div style=\"text-align:center;margin-bottom:0px;margin-top:180px;\">"; //.$quote->symbol;
-                $output .= "<span style=\"font-size:23px;\"><strong>\$" .$quote->last. "</strong>&nbsp;&nbsp;"; // price.   
+                $output .= "<div class=\"quote\">"; //.$quote->symbol;
+                $output .= "<span class=\"big_quote\" style=\"\"><strong>\$" .$quote->last. "</strong>&nbsp;&nbsp;"; // price.   
                 $output .= "<span style=\"".get_change_color($quote->change). "\">(".$quote->change.")</span>\n"; // Company symbol 
                 $output .= "</div>";
                 
                 $output .= "<div class=\"caption\">(" .$quote->date. " at " .$quote->time. ")<br />";
                 $output .= "<a href=\"http://finance.yahoo.com/q?s=".$symb."\" target=\"_blank\">Yahoo Finance</a>"
-                        . "| <a href=\"http://www.google.com/finance?q=".$symb."\" target=\"_blank\">"
-                        . "Google Finance</a></div>";               
+                        . "| <a href=\"http://www.google.com/finance?q=".$symb."\" target=\"_blank\">Google Finance</a> "
+                        . "| <a href=\"http://us.rd.yahoo.com/finance/news/rss/add/*http://finance.yahoo.com/rss/headline?s=".$symb
+                        . "\" target=\"_blank\">RSS</a></div>";               
                 $output .= "</div>";
             
-                $output .= "<div style=\"padding-top:20px;\">";     
+                $output .= "<div class=\"details\">";     
                 $output .= "52 Wk High: " .$quote->wkhigh. "<br>\n";
                 $output .= "52 Wk Low: " .$quote->wklow. "<br>\n";    
                 $output .= "EPS: " .$quote->eps. "<br>\n";
@@ -230,8 +230,8 @@ chart api */
                 //$output .= "High: " .$quote->high. " Low: " .$quote->low. "<br>\n";
                 //$output .= "Open: " .$quote->open. "<br>\n";          
                 $output .= "<br>\n";   
-            $output .= "<br>\n</div>"; 
-            $output .= "<META http-equiv=\"refresh\" content=\"900;URL=".page_url()."\">"; 
+                $output .= "<br>\n</div>"; 
+                $output .= "<META http-equiv=\"refresh\" content=\"900;URL=".page_url()."\">"; 
             
             
             } else {

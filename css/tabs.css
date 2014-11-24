@@ -3,9 +3,17 @@
     Author     : cscrivo
 */	      
     .container {
-        //border:solid 1px black;
         float:left;
         clear:right;
+    }
+    .big_box {
+        height:230px;float:left;margin-right:20px;
+    }
+    .big_quote {
+        font-size:23px;
+    }
+    .quote {
+        text-align:center;margin-bottom:0px;margin-top:180px;
     }
     .caption {
         margin-top:0px;
@@ -38,7 +46,7 @@
       list-style: none;
     }
     .tabs label {
-        margin-left:5px;
+        margin-left:0px;
         display: block;
         padding: 5px 5px;
         border-radius: 2px 2px 0 0;
@@ -93,4 +101,7 @@
       //-o-animation-duration: 0.5s;
       //-moz-animation-duration: 0.5s;
       //animation-duration: 0.5s;
+    }
+    .details {
+        padding-top:40px;
     }
